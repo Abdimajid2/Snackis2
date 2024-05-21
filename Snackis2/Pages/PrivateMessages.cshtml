@@ -27,23 +27,26 @@
     <button type="submit" class="btn btn-primary">Skicka</button>
 </form>
 
-<h2>Mottagna meddelanden</h2>
-@if (Model.Messages != null)
-{
-
-
-    @foreach (var message in Model.Messages)
+<div class="container mt-5">
+    <h2 class="mb-4">Mottagna meddelanden</h2>
+    @if (Model.Messages != null)
     {
-        <!--hämtar personen som skickade meddelandet-->
-        var sender = await Model._userManager.FindByIdAsync(message.SendFrom);
+        @foreach (var message in Model.Messages)
+        {
+            var sender = await Model._userManager.FindByIdAsync(message.SendFrom);
 
-        <p>@sender har skickat: @message.Text </p>
-     
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Från: @sender.UserName</h5>
+                    <p class="card-text">@message.Text</p>
+                </div>
+            </div>
+        }
     }
-
-
-}
-else
-{
-    <p>Inga meddelanden hittades</p>
-}
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            Inga mottagna meddelanden.
+        </div>
+    }
+</div>

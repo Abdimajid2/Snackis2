@@ -53,11 +53,11 @@ namespace Snackis2.Pages
             {
                 //ska kunna hämta inlägg från databasen baserat på villken kategori man väljer
                 Posts = await _context.Post.Where(p => p.KategoryId == categoryId)
-                    .Include(p => p.Comments).ToListAsync(); //inkluderar kommentarerna för inlägg
+                    .Include(p => p.Comments).OrderByDescending(p => p.PostDate).ToListAsync(); //inkluderar kommentarerna för inlägg
             }
             else // om ingen kategori väljs visas alla poster
             {
-                Posts = await _context.Post.ToListAsync();
+                Posts = await _context.Post.OrderByDescending(p => p.PostDate).ToListAsync();
             }
             foreach (var post in Posts)
             {

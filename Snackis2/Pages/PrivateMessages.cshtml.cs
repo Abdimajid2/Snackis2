@@ -42,7 +42,7 @@ namespace Snackis2.Pages
 
             //hämtar dem meddelande som den inloggade har fått
             Messages = await _context.Message
-                .Where(m => m.SendTo == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+                .Where(m => m.SendTo == User.FindFirstValue(ClaimTypes.NameIdentifier)).OrderByDescending(m => m.SendDate).ToListAsync();
          
         }
 
