@@ -11,7 +11,7 @@ namespace Snackis2.Pages
 {
     public class IndexModel : PageModel
     {
-
+       
         public Areas.Identity.Data.Snackis2User Myuser { get; set; }
 
 
