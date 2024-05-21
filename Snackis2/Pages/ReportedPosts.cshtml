@@ -1,0 +1,22 @@
+﻿@page
+@model Snackis2.Pages.ReportedPostsModel
+@{
+    ViewData["Title"] = "Rapporterade inlägg";
+}
+
+<h2>Rapporterade inlägg</h2>
+    @foreach (var report in Model.ReportedPost)
+    {
+    var user = await Model._userManager.FindByIdAsync(report.UserId);
+    
+    <div>
+            <p>Rapporterad: @report.ReportDate</p>
+            <p>Av: @user</p>
+        @if(report.Post != null)
+        {
+            <p>Rapporterad inlägg: @report.Post.Header</p>  
+            <p>innehållet: @report.Post.Text</p>
+        }
+    </div>
+    }
+ 

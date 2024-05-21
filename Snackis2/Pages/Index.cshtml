@@ -1,0 +1,119 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Home page";
+
+
+}
+
+<div class="container-fluid">
+    <h1>Välkommen till Active People Forum</h1> <br />
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">Alla Kategorier</a>
+
+                @foreach (var category in Model.Categories)
+                {
+                    <!--loppar igenom alla kategorier sedan skickas kategori-id till url som sedan visar inlägg baserat på den kategorien-->
+                    <a href="/Index?categoryId=@category.Id" class="list-group-item list-group-item-action">@category.KategoryName</a>
+                }
+            </div>
+        </div>
+        <div class="col-md-9">
+
+
+            <h3>Senaste inläggen</h3>
+            <!--loopar igenom alla inlägg och sedan visa dem på start sidan-->
+            @foreach (var post in Model.Posts)
+            {
+
+                var user = await Model._userManager.FindByIdAsync(post.UserId);
+
+
+                <div class="card my-3">
+                    <div class="card-header">
+
+
+                        <h5>@post.Header ||   Postad  @post.PostDate.ToShortDateString() av @user</h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <!--om användaren har valt en profilbild kommer den visas till vänster om texten när användare postar ett inlägg-->
+                        @if (user.UserPfP != null)
+                        {
+                            <img src="~/UserPFP/@user.UserPfP" class="rounded-circle" style="width: 50px; height: 50px; float: left; margin-right: 10px;" />
+                        }
+                        <p>@post.Text</p>
+                    </div>
+
+                    <div class="card-footer">
+
+
+                        <h6>Kommentarer:</h6>
+                        @foreach (var comment in post.Comments)
+                        {
+                            <!--loopar igenom alla kommentarer och sedan visa dem på start sidan-->
+                            var commented = await Model._userManager.FindByIdAsync(comment.UserId);
+                            <div>
+                                <p class="form-control">@commented.Email Kommenterade: @comment.CommentText</p>
+                            </div>
+
+
+                        }
+                        <!--om användaren är inloggad kommmer den kunna rapportera ett inlägg-->
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form method="post">
+                                <input asp-for="report.PostId" type="hidden" value="@post.Id" />
+                                <button type="submit" class="btn btn-danger">Rapportera inlägget</button>
+                            </form>
+                        }
+
+
+                        <!--om användaren är inloggad kommmer den kunna kommentera på ett inlägg-->
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form method="post">
+                                <input type="hidden" asp-for="Comment.PostId" value="@post.Id" />
+                                <!--sätt postid till specifika inläggets id
+                                som sedan kan användas för att filtirera kommentarerna så att man kan visa kommentaren som är kopplad till inlägget
+                                            -->
+                                <textarea asp-for="Comment.CommentText" class="form-control" rows="5"></textarea>
+                                <br />
+                                <input type="submit" class="btn btn-secondary" value="Kommentera" />
+                            </form>
+                        }
+
+                    </div>
+                </div>
+            }
+
+            <!--om användaren är inloggad kommmer den kunna posta ett inlägg-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <h1>Välkommen @User.Identity.Name</h1>
+
+
+                <form method="post" enctype="multipart/form-data">
+                    <label asp-for="post.Header"></label>
+                    <input asp-for="post.Header" class="form-control" />
+
+                    <label asp-for="post.Text"></label>
+                    <textarea asp-for="post.Text" class="form-control" rows="5"></textarea>
+
+                    <select asp-for="post.KategoryId" class="form-control">
+                        <option value="">Select a category...</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Id">@category.KategoryName</option>
+                        }
+                    </select>
+
+                    <input type="submit" class="btn btn-success mt-3" value="Posta din fråga" />
+                </form>
+            }
+

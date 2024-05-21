@@ -1,0 +1,49 @@
+﻿@page
+@model Snackis2.Pages.PrivateMessagesModel
+@{
+}
+
+<h1>Denna sida är till privata meddelande</h1>
+
+<form method="post">
+    <div>
+        <label asp-for="NewMessages.Text">Meddelande</label>
+        <textarea asp-for="NewMessages.Text" class="form-control"></textarea>
+    </div>
+    <div>
+        <label asp-for="NewMessages.SendTo">Välj mottagare</label>
+
+        <!--en dropdown lista av alla användare så att man kan välja en av dem-->
+        <select asp-for="NewMessages.SendTo" class="form-control">
+
+            <option value="">Välj den du vill skicka meddelande till</option> <!--utan denna kommer en användare vara förvald-->
+            <!--loppar igenom alla användare-->
+            @foreach (var user in Model.Users)
+            {
+                <option value="@user.Id">@user.UserName</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Skicka</button>
+</form>
+
+<h2>Mottagna meddelanden</h2>
+@if (Model.Messages != null)
+{
+
+
+    @foreach (var message in Model.Messages)
+    {
+        <!--hämtar personen som skickade meddelandet-->
+        var sender = await Model._userManager.FindByIdAsync(message.SendFrom);
+
+        <p>@sender har skickat: @message.Text </p>
+     
+    }
+
+
+}
+else
+{
+    <p>Inga meddelanden hittades</p>
+}
