@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
+using Snackis2.DAL;
 using Snackis2.Models;
 using System.Security.Claims;
 
@@ -14,13 +15,15 @@ namespace Snackis2.Pages
        
         public Areas.Identity.Data.Snackis2User Myuser { get; set; }
 
+        public CategoryManager _categoryManager;
 
         private readonly Data.Snackis2Context _context; //åtkomst till db anslutningen
         public UserManager<Areas.Identity.Data.Snackis2User> _userManager { get; set; }//åtkomst till user, gick ej med ID på html sidan, fråga mike
-        public IndexModel(UserManager<Areas.Identity.Data.Snackis2User> userManager, Data.Snackis2Context context)
+        public IndexModel(UserManager<Areas.Identity.Data.Snackis2User> userManager, Data.Snackis2Context context, CategoryManager categoryManager)
         {
             _userManager = userManager;
             _context = context;
+            _categoryManager = categoryManager;
 
         }
 
@@ -66,8 +69,7 @@ namespace Snackis2.Pages
             }
 
             //hämtar alla  kategorier från databasen
-            Categories = await _context.Category.ToListAsync();
-
+            Categories = await CategoryManager.GetAllProductsFromAPI();
         }
 
         public async Task<IActionResult> OnPostAsync()

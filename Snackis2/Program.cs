@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Snackis2.DAL;
 using Snackis2.Data;
 namespace Snackis2
 {
@@ -19,9 +20,11 @@ namespace Snackis2
 
             builder.Services.AddAuthorization(options =>
             options.AddPolicy("AdminKrav", policy => policy.RequireRole("Admin")));
-
+ 
             // Add services to the container.
             builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/Admin", "AdminKrav"));
+
+            builder.Services.AddSingleton<CategoryManager>();
 
             var app = builder.Build();
 
