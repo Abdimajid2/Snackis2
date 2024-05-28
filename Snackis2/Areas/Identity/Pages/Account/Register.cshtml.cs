@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using Snackis2.Areas.Identity.Data;
 
@@ -127,14 +128,19 @@ namespace Snackis2.Areas.Identity.Pages.Account
                 if (image != null)
                 {
                     Random rnd = new Random();
-                    filename = rnd.Next(0, 10000).ToString() + image.FileName;
+                    filename = rnd.Next(0, 10000).ToString() + "_" + image.FileName;
 
-                    using (var fileStream = new FileStream("./wwwroot/UserPFP/" + filename, FileMode.Create))
+                    using (var fileStream = new FileStream(Path.Combine("./wwwroot/UserPFP", filename), FileMode.Create))
                     {
                         await image.CopyToAsync(fileStream);
                     }
+                    user.UserPfP = filename; // Sätt profilbilden om en bild valdes
                 }
-                user.UserPfP = filename;
+                else
+                {
+                    user.UserPfP = "defaultpicture.jpg"; // Sätt standardbilden om ingen bild valdes
+                }
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

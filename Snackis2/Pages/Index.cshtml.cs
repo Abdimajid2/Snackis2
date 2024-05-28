@@ -69,7 +69,7 @@ namespace Snackis2.Pages
             }
 
             //hämtar alla  kategorier från databasen
-            Categories = await CategoryManager.GetAllProductsFromAPI();
+            Categories = await CategoryManager.GetAllCategoriesFromAPI();
         }
 
         public async Task<IActionResult> OnPostAsync()

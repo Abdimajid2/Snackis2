@@ -22,7 +22,7 @@ namespace Snackis2.Pages
         public List<Models.Report> ReportedPost { get; set; }
         public async Task OnGet()
         {
-            ReportedPost = await _context.Report.Include(r => r.Post).ToListAsync();
+            ReportedPost = await _context.Report.Include(r => r.Post).OrderByDescending(r => r.ReportDate).ToListAsync();
 
         }
 

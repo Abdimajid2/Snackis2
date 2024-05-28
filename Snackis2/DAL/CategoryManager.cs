@@ -7,7 +7,7 @@ namespace Snackis2.DAL
     {
         private static Uri BasedAddress = new Uri("https://localhost:44319/");
 
-        public static async Task<List<Models.Category>> GetAllProductsFromAPI()
+        public static async Task<List<Models.Category>> GetAllCategoriesFromAPI()
         {
             List<Models.Category> categories = new List<Models.Category>();
 
