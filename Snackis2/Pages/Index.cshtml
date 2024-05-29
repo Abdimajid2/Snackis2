@@ -74,6 +74,7 @@
                             <form method="post">
                                 <input asp-for="report.PostId" type="hidden" value="@post.Id" />
                                 <button type="submit" class="btn btn-danger">Rapportera inlägget</button>
+                                <br /> <br />
                             </form>
                         }
 
@@ -99,7 +100,7 @@
             <!--om användaren är inloggad kommmer den kunna posta ett inlägg-->
             @if (User.Identity.IsAuthenticated)
             {
-                <h3>Lägg upp din fråga neda!</h3>
+                <h3>Lägg upp din fråga nedan!</h3>
 
 
                 <form method="post" enctype="multipart/form-data">

@@ -20,9 +20,9 @@ namespace Snackis2
 
             builder.Services.AddAuthorization(options =>
             options.AddPolicy("AdminKrav", policy => policy.RequireRole("Admin")));
- 
-            // Add services to the container.
-            builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/Admin", "AdminKrav"));
+
+            //Add services to the container.
+           builder.Services.AddRazorPages(options => options.Conventions.AuthorizeFolder("/Admin", "AdminKrav"));
 
             builder.Services.AddSingleton<CategoryManager>();
 

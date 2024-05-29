@@ -5,7 +5,7 @@ namespace Snackis2.DAL
 {
     public class CategoryManager
     {
-        private static Uri BasedAddress = new Uri("https://localhost:44319/");
+        private static Uri BasedAddress = new Uri("https://activepeopleapi.azurewebsites.net/");
 
         public static async Task<List<Models.Category>> GetAllCategoriesFromAPI()
         {
