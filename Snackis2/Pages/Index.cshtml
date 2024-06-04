@@ -37,7 +37,7 @@
                     <div class="card-header">
 
 
-                        <h5>@post.Header ||   Postad  @post.PostDate.ToShortDateString() av @user</h5>
+                        <h5>@post.Header |  Postad  @post.PostDate.ToShortDateString() av @user</h5>
                     </div>
 
                     <div class="card-body">
@@ -47,10 +47,7 @@
                         {
                             <img src="~/UserPFP/@user.UserPfP" class="rounded-circle" style="width: 50px; height: 50px; float: left; margin-right: 10px;" />
                         }
-                        else
-                        {
-                            <img src="~/DefaultPFP/defaultpicture.jpg" class="rounded-circle" style="width: 50px; height: 50px; float: left; margin-right: 10px;" />
-                        }
+ 
                         <p>@post.Text</p>
                     </div>
 
@@ -62,7 +59,7 @@
                         {
                             <!--loopar igenom alla kommentarer och sedan visa dem på start sidan-->
                             var commented = await Model._userManager.FindByIdAsync(comment.UserId);
-                            <div>
+                            <div class="commentclass">
                                 <p class="form-control">@commented.Email Kommenterade: @comment.CommentText</p>
                             </div>
 
@@ -74,8 +71,10 @@
                             <form method="post">
                                 <input asp-for="report.PostId" type="hidden" value="@post.Id" />
                                 <button type="submit" class="btn btn-danger">Rapportera inlägget</button>
-                                <br /> <br />
+
                             </form>
+
+                            <br />
                         }
 
 
@@ -121,4 +120,3 @@
                     <input type="submit" class="btn btn-success mt-3" value="Posta din fråga" />
                 </form>
             }
-
