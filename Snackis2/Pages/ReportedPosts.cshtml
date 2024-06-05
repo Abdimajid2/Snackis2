@@ -19,6 +19,9 @@
                     <p class="card-text"><strong>Rapporterad inlägg:</strong> @report.Post.Header</p>
                     <p class="card-text"><strong>Innehållet:</strong> @report.Post.Text</p>
                 }
+                <form method="post" asp-route-id="@report.Id">
+                    <button type="submit" class="btn btn-danger">Ta bort</button>
+                </form>
             </div>
         </div>
     }

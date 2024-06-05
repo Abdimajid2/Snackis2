@@ -25,6 +25,18 @@ namespace Snackis2.Pages
             ReportedPost = await _context.Report.Include(r => r.Post).OrderByDescending(r => r.ReportDate).ToListAsync();
 
         }
+        public async Task<IActionResult> OnPost(Guid id)
+        {
+            var report = await _context.Report.FindAsync(id);
+
+            if (report != null)
+            {
+                _context.Report.Remove(report);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage();
+        }
 
 
     }
